@@ -12,6 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="16dp"
         android:layout_toLeftOf="@+id/transaction_cost"
         android:layout_toStartOf="@+id/transaction_cost"
         android:text="TextView"
@@ -25,6 +26,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/transaction_title"
+        android:layout_marginRight="16dp"
         android:layout_toLeftOf="@+id/transaction_cost"
         android:layout_toStartOf="@+id/transaction_cost"
         android:text="TextView"
@@ -38,8 +40,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/transaction_title"
         android:text="+25"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="36sp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/transaction_sender"
@@ -49,11 +51,11 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/transaction_description"
         android:layout_marginTop="4dp"
-        android:layout_toLeftOf="@+id/transaction_cost"
-        android:layout_toStartOf="@+id/transaction_cost"
+        android:layout_toStartOf="@+id/transaction_date"
         android:text="TextView"
         android:textColor="@color/colorSecondaryText"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:layout_toLeftOf="@+id/transaction_date" />
 
     <TextView
         android:id="@+id/transaction_date"

@@ -82,20 +82,13 @@ public class ProfileFragmentsInterface {
                                 counters.add(new Counter(
                                         arrObj.getString("type"),
                                         arrObj.getString("description"),
-                                        arrObj.getString("date"),
+                                        arrObj.getString("creation_timestamp"),
                                         arrObj.getString("value")
                                 ));
                             }
                         }
 
-                        Collections.sort(counters, new Comparator<Counter>() {
-                            @Override
-                            public int compare(Counter o1, Counter o2) {
-                                return -o1.date.compareTo(o2.date);
-                            }
-                        });
-
-                        //Collections.reverse(counters);
+                        Collections.reverse(counters);
 
                         JSONObject study_info = object.getJSONObject("counters_value");
 
@@ -108,7 +101,13 @@ public class ProfileFragmentsInterface {
                         final String otchet = "Отчёты по лабораторным работам: " + study_info.getJSONObject("val").getInt("lab_pass") + " из " + study_info.getJSONObject("info").getInt("lab_pass_needed");
                         final String lecture_visited = "Лекций посещено: " + study_info.getJSONObject("val").getInt("lecture_attend");
                         final int lec_skipped = study_info.getJSONObject("val").getInt("lecture_miss");
-                        final String lecture_skipped = "Лекций пропущено: " + lec_skipped;
+                        String lecture_skipped_nonfinal;
+                        if (lec_skipped == 0) {
+                            lecture_skipped_nonfinal = null;
+                        } else {
+                            lecture_skipped_nonfinal = "Лекций пропущено: " + lec_skipped;
+                        }
+                        final String lecture_skipped = lecture_skipped_nonfinal;
                         String next_skip_penalty_nonfinal;
                         if (lec_skipped == 0) {
                             next_skip_penalty_nonfinal = null;
@@ -127,7 +126,13 @@ public class ProfileFragmentsInterface {
 
                         final String greeting = "Привет, " + name;
                         final String balanceS = "Баланс: " + balance + "@";
-                        final String cerificateS = "Сертификаты: " + certificate + "&";
+                        String certificate_nonfinal;
+                        if (certificate == 0) {
+                            certificate_nonfinal = null;
+                        } else {
+                            certificate_nonfinal = "Сертификаты: " + certificate + "&";
+                        }
+                        final String cerificateS = certificate_nonfinal;
 
                         array = object.getJSONArray("balance_changes");
                         for (int i = 0; i < array.length(); i++) {

@@ -88,22 +88,23 @@ public class CountersFragment extends Fragment {
                 infoLecAtt.setText(info_lec_att);
                 infoLecMis.setText(info_lec_mis);
 
-                if (info_lec_pen != null && info_fac != null) {
+                infoLecPen.setVisibility(View.GONE);
+                infoFac.setVisibility(View.GONE);
+                infoLecMis.setVisibility(View.GONE);
+
+                if (info_lec_pen != null) {
                     infoLecPen.setVisibility(View.VISIBLE);
                     infoLecPen.setText(info_lec_pen);
+                }
+
+                if (info_lec_mis != null) {
+                    infoLecMis.setVisibility(View.VISIBLE);
+                    infoLecMis.setText(info_lec_mis);
+                }
+
+                if (info_fac != null) {
                     infoFac.setVisibility(View.VISIBLE);
                     infoFac.setText(info_fac);
-                } else if (info_fac != null) {
-                    infoLecPen.setVisibility(View.VISIBLE);
-                    infoLecPen.setText(info_fac);
-                    infoFac.setVisibility(View.GONE);
-                } else if (info_lec_pen != null) {
-                    infoLecPen.setVisibility(View.VISIBLE);
-                    infoLecPen.setText(info_lec_pen);
-                    infoFac.setVisibility(View.GONE);
-                } else {
-                    infoLecPen.setVisibility(View.GONE);
-                    infoFac.setVisibility(View.GONE);
                 }
 
                 CountersFragment.this.counters.clear();
@@ -124,6 +125,7 @@ public class CountersFragment extends Fragment {
             public TextView title;
             public TextView description;
             public TextView date;
+            public TextView value;
 
             public ViewHolder(View itemView) {
 
@@ -132,6 +134,7 @@ public class CountersFragment extends Fragment {
                 title = (TextView) itemView.findViewById(R.id.counter_title);
                 description = (TextView) itemView.findViewById(R.id.counter_description);
                 date = (TextView) itemView.findViewById(R.id.counter_date);
+                value = (TextView) itemView.findViewById(R.id.counter_value);
             }
         }
 
@@ -163,15 +166,24 @@ public class CountersFragment extends Fragment {
             Counter counter = counters.get(position);
 
             TextView title = viewHolder.title;
-            if (Math.round(Double.valueOf(counter.value)) > 1) {
-                title.setText(counter.title + " (" + counter.value + ")");
-            } else {
-                title.setText(counter.title);
-            }
+            title.setText(counter.title);
             TextView description = viewHolder.description;
             description.setText(counter.description);
             TextView date = viewHolder.date;
             date.setText(counter.date);
+
+            long valueLong = Math.round(Double.valueOf(counter.value));
+            if (valueLong != 1) {
+                viewHolder.value.setVisibility(View.VISIBLE);
+                viewHolder.value.setText(valueLong + "&");
+                if (valueLong >= 0) {
+                    viewHolder.value.setTextColor(getResources().getColor(R.color.green));
+                } else {
+                    viewHolder.value.setTextColor(getResources().getColor(R.color.red));
+                }
+            } else {
+                viewHolder.value.setVisibility(View.GONE);
+            }
         }
 
         @Override

@@ -86,7 +86,13 @@ public class TransactionsFragment extends Fragment {
             public void run() {
                 greetingTextView.setText(greeting);
                 balanceTextView.setText(balance);
-                certificateTextView.setText(certificate);
+
+                if (certificate != null) {
+                    certificateTextView.setVisibility(View.VISIBLE);
+                    certificateTextView.setText(certificate);
+                } else {
+                    certificateTextView.setVisibility(View.GONE);
+                }
 
                 TransactionsFragment.this.transactions.clear();
                 for (Transaction transaction: transactions) {
