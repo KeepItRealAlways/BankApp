@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Банк ЛФМШ</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="login_failed">Не удалось войти!</string>
+    <string name="counters">Счётчики</string>
+    <string name="transactions">Транзакции</string>
+    <string name="sign_out">Выйти</string>
+</resources>

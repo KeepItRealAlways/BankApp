@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Банк ЛФМШ</string>
+
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Войти</string>
+
+    <string name="login_failed">Не удалось войти!</string>
+
+    <string name="sign_out">Выйти</string>
+
+    <string name="transactions">Транзакции</string>
+    <string name="counters">Счётчики</string>
+
+</resources>
