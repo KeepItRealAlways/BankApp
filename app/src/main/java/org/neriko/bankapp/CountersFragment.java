@@ -86,7 +86,6 @@ public class CountersFragment extends Fragment {
                 infoSem.setText(info_sem);
                 infoLab.setText(info_lab);
                 infoLecAtt.setText(info_lec_att);
-                infoLecMis.setText(info_lec_mis);
 
                 infoLecPen.setVisibility(View.GONE);
                 infoFac.setVisibility(View.GONE);

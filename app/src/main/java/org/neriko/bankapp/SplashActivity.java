@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if (!AppShared.getAuthToken().isEmpty()) {
+            if (AppShared.getAuthToken() != null) {
                 startActivity(new Intent(this, ProfileActivity.class));
                 finish();
             } else {

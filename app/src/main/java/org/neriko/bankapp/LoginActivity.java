@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if (!AppShared.getAuthToken().isEmpty()) {
+                if (AppShared.getAuthToken() != null) {
                     prefs.edit().putString("login", login).putString("password", password).apply();
                     startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
                     finish();
