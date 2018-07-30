@@ -4,11 +4,11 @@ package org.neriko.bankapp;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +19,8 @@ import java.util.List;
 
 public class CountersFragment extends Fragment {
 
-    private TextView infoSem;
-    private TextView infoLab;
-    private TextView infoLecAtt;
-    private TextView infoLecMis;
-    private TextView infoLecPen;
-    private TextView infoFac;
-
     private RecyclerView countersHolder;
-    private List<Counter> counters;
+    private List<Counter> counters = new ArrayList<>();
     private CountersAdapter adapter;
 
     private SwipeRefreshLayout swipeContainer;
@@ -40,16 +33,8 @@ public class CountersFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_counters, container, false);
 
-        infoSem = (TextView) view.findViewById(R.id.info_sem);
-        infoLab = (TextView) view.findViewById(R.id.info_lab);
-        infoLecAtt = (TextView) view.findViewById(R.id.info_lec_att);
-        infoLecMis = (TextView) view.findViewById(R.id.info_lec_mis);
-        infoLecPen = (TextView) view.findViewById(R.id.info_lec_pen);
-        infoFac = (TextView) view.findViewById(R.id.info_fac);
+        countersHolder = view.findViewById(R.id.counters);
 
-        countersHolder = (RecyclerView) view.findViewById(R.id.counters);
-
-        counters = new ArrayList<>();
         adapter = new CountersAdapter(getActivity(), counters);
         countersHolder.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
@@ -57,7 +42,7 @@ public class CountersFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), manager.getOrientation());
         countersHolder.addItemDecoration(dividerItemDecoration);
 
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -69,52 +54,18 @@ public class CountersFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        updateViews();
+
         return view;
     }
 
-    public void updateViews(final String info_sem,
-                            final String info_lab,
-                            final String info_lec_att,
-                            final String info_lec_mis,
-                            final String info_lec_pen,
-                            final String info_fac,
-                            final List<Counter> counters) {
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                infoSem.setText(info_sem);
-                infoLab.setText(info_lab);
-                infoLecAtt.setText(info_lec_att);
 
-                infoLecPen.setVisibility(View.GONE);
-                infoFac.setVisibility(View.GONE);
-                infoLecMis.setVisibility(View.GONE);
-
-                if (info_lec_pen != null) {
-                    infoLecPen.setVisibility(View.VISIBLE);
-                    infoLecPen.setText(info_lec_pen);
-                }
-
-                if (info_lec_mis != null) {
-                    infoLecMis.setVisibility(View.VISIBLE);
-                    infoLecMis.setText(info_lec_mis);
-                }
-
-                if (info_fac != null) {
-                    infoFac.setVisibility(View.VISIBLE);
-                    infoFac.setText(info_fac);
-                }
-
-                CountersFragment.this.counters.clear();
-                for (Counter counter:counters) {
-                    CountersFragment.this.counters.add(counter);
-                }
-                adapter.notifyDataSetChanged();
-
-                swipeContainer.setRefreshing(false);
-            }
-        });
+    public void updateViews() {
+        counters.clear();
+        counters.addAll(AppShared.getCounters());
+        adapter.notifyDataSetChanged();
+        swipeContainer.setRefreshing(false);
     }
 
     public class CountersAdapter extends
@@ -130,10 +81,10 @@ public class CountersFragment extends Fragment {
 
                 super(itemView);
 
-                title = (TextView) itemView.findViewById(R.id.counter_title);
-                description = (TextView) itemView.findViewById(R.id.counter_description);
-                date = (TextView) itemView.findViewById(R.id.counter_date);
-                value = (TextView) itemView.findViewById(R.id.counter_value);
+                title = itemView.findViewById(R.id.counter_title);
+                description = itemView.findViewById(R.id.counter_description);
+                date = itemView.findViewById(R.id.counter_date);
+                value = itemView.findViewById(R.id.counter_value);
             }
         }
 

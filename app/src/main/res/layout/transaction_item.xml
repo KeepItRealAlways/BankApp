@@ -1,61 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="16dp"
-    android:paddingTop="16dp">
+    android:layout_height="88dp">
 
-    <TextView
-        android:id="@+id/transaction_title"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="16dp"
-        android:layout_toLeftOf="@+id/transaction_cost"
-        android:layout_toStartOf="@+id/transaction_cost"
-        android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/colorPrimaryText" />
-
-    <TextView
-        android:id="@+id/transaction_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/transaction_title"
-        android:layout_marginRight="16dp"
-        android:layout_toLeftOf="@+id/transaction_cost"
-        android:layout_toStartOf="@+id/transaction_cost"
-        android:text="TextView"
-        android:textColor="@color/colorSecondaryText" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="72dp" />
 
     <TextView
         android:id="@+id/transaction_cost"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/transaction_title"
-        android:text="+25"
+        android:layout_height="40dp"
+        android:fontFamily="@font/raleway_black"
+        android:gravity="center"
+        android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textSize="24sp" />
+        android:textIsSelectable="false"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/transaction_title"
+        tools:text="-120@" />
 
     <TextView
-        android:id="@+id/transaction_sender"
-        android:layout_width="wrap_content"
+        android:id="@+id/transaction_title"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/transaction_description"
-        android:layout_marginTop="4dp"
-        android:layout_toStartOf="@+id/transaction_date"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_toStartOf="@+id/transaction_cost"
+        android:layout_toLeftOf="@+id/transaction_cost"
+        android:fontFamily="@font/raleway_medium"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/transaction_description"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/transaction_title"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/raleway_semibold"
+        android:gravity="center_vertical"
         android:text="TextView"
         android:textColor="@color/colorSecondaryText"
         android:textSize="12sp"
-        android:layout_toLeftOf="@+id/transaction_date" />
+        app:layout_constraintBottom_toBottomOf="@+id/transaction_cost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_title" />
+
+    <TextView
+        android:id="@+id/transaction_sender"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/transaction_description"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_toStartOf="@+id/transaction_date"
+        android:layout_toLeftOf="@+id/transaction_date"
+        android:fontFamily="@font/raleway_semibold"
+        android:text="TextView"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/transaction_date"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_description" />
 
     <TextView
         android:id="@+id/transaction_date"
@@ -64,7 +96,80 @@
         android:layout_alignBottom="@id/transaction_sender"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/raleway_semibold"
         android:text="TextView"
         android:textColor="@color/colorSecondaryText"
-        android:textSize="12sp" />
-</RelativeLayout>
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/transaction_sender"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/transaction_sender" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="16dp">-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/transaction_title"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_toStartOf="@+id/transaction_cost"-->
+        <!--android:layout_toLeftOf="@+id/transaction_cost"-->
+        <!--android:text="TextView"-->
+        <!--android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+        <!--android:textColor="@color/colorPrimaryText" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/transaction_description"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/transaction_title"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_toStartOf="@+id/transaction_date"-->
+        <!--android:layout_toLeftOf="@+id/transaction_date"-->
+        <!--android:text="TextView"-->
+        <!--android:textColor="@color/colorSecondaryText" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/transaction_cost"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignTop="@+id/transaction_title"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:text="+25"-->
+        <!--android:textAppearance="@style/TextAppearance.AppCompat.Title"-->
+        <!--android:textSize="24sp" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/transaction_sender"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/transaction_description"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_marginTop="4dp"-->
+        <!--android:layout_toStartOf="@+id/transaction_date"-->
+        <!--android:layout_toLeftOf="@+id/transaction_date"-->
+        <!--android:text="TextView"-->
+        <!--android:textColor="@color/colorSecondaryText"-->
+        <!--android:textSize="12sp" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/transaction_date"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBottom="@id/transaction_sender"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:text="TextView"-->
+        <!--android:textColor="@color/colorSecondaryText"-->
+        <!--android:textSize="12sp" />-->
+<!--</RelativeLayout>-->

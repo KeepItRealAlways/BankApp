@@ -1,6 +1,6 @@
 package org.neriko.bankapp;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
@@ -13,17 +13,18 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-/**
- * Nikita Kartomin 2k17
- */
-
 public class AuthTask extends AsyncTask<Void, Void, String> {
 
     private URL url;
     private String login;
     private String password;
 
-    public AuthTask(String login, String password) {
+    private Activity caller;
+
+    AuthTask(Activity caller, String login, String password) {
+
+        this.caller = caller;
+
         try {
             url = new URL(AppShared.getUrl() + "auth/");
         } catch (MalformedURLException exception) {
@@ -37,6 +38,8 @@ public class AuthTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
+
+        String toRet = null;
 
         try {
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -57,7 +60,7 @@ public class AuthTask extends AsyncTask<Void, Void, String> {
                 String line = reader.readLine();
                 object = new JSONObject(line);
                 if (object.getBoolean("auth_success")) {
-                    return object.getString("session_id");
+                    toRet = object.getString("session_id");
                 }
             }
 
@@ -66,6 +69,16 @@ public class AuthTask extends AsyncTask<Void, Void, String> {
             e.printStackTrace();
         }
 
-        return null;
+        return toRet;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+
+        if (caller instanceof SplashActivity)
+            ((SplashActivity) caller).returnAuthToken(s);
+        if (caller instanceof LoginActivity)
+            ((LoginActivity) caller).returnAuthToken(s);
     }
 }

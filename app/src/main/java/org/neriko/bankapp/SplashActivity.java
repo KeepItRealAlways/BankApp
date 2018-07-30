@@ -2,12 +2,23 @@ package org.neriko.bankapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -16,26 +27,38 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("credentials", MODE_PRIVATE);
-        if (sharedPreferences.contains("login") && sharedPreferences.contains("password")) {
-            String login = sharedPreferences.getString("login", null);
-            String password = sharedPreferences.getString("password", null);
+        if (AppShared.getAuthToken() == null) {
+            SharedPreferences sharedPreferences = getSharedPreferences("credentials", MODE_PRIVATE);
+            if (sharedPreferences.contains("login") && sharedPreferences.contains("password")) {
 
-            try {
-                AppShared.setAuthToken(new AuthTask(login, password).execute().get(10, TimeUnit.SECONDS));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                String login = sharedPreferences.getString("login", null);
+                String password = sharedPreferences.getString("password", null);
 
-            if (AppShared.getAuthToken() != null) {
-                startActivity(new Intent(this, ProfileActivity.class));
-                finish();
+                AppShared.setLogin(login);
+
+                new AuthTask(this, login, password).execute();
             } else {
-                Snackbar.make(findViewById(R.id.main_layout), getString(R.string.login_failed), Snackbar.LENGTH_LONG).show();
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                finish();
             }
         } else {
-            startActivity(new Intent(this, LoginActivity.class));
+            new DownloadProfileInfo(this).execute();
+        }
+    }
+
+    public void returnAuthToken(String token){
+        AppShared.setAuthToken(token);
+
+        if (AppShared.getAuthToken() != null) {
+            new DownloadProfileInfo(this).execute();
+        } else {
+            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             finish();
         }
+    }
+
+    public void returnProfileInfo() {
+        startActivity(new Intent(SplashActivity.this, ProfileActivity.class));
+        finish();
     }
 }

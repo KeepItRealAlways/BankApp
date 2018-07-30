@@ -4,12 +4,12 @@ package org.neriko.bankapp;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +17,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +29,11 @@ import java.util.List;
  */
 public class TransactionsFragment extends Fragment {
 
-    private TextView greetingTextView;
-    private TextView balanceTextView;
-    private TextView certificateTextView;
-
     private RecyclerView transactionsHolder;
     private List<Transaction> transactions;
     private TransactionsAdapter adapter;
+
+    private FloatingActionButton fab;
 
     private boolean firstRun = true;
 
@@ -47,11 +47,7 @@ public class TransactionsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_transactions, container, false);
 
-        greetingTextView = (TextView) view.findViewById(R.id.greeting_textview);
-        balanceTextView = (TextView) view.findViewById(R.id.balance_textview);
-        certificateTextView = (TextView) view.findViewById(R.id.certificate_textview);
-
-        transactionsHolder = (RecyclerView) view.findViewById(R.id.transactions);
+        transactionsHolder = view.findViewById(R.id.transactions);
 
         transactions = new ArrayList<>();
         adapter = new TransactionsAdapter(getActivity(), transactions);
@@ -61,7 +57,7 @@ public class TransactionsFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), layoutManager.getOrientation());
         transactionsHolder.addItemDecoration(dividerItemDecoration);
 
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -73,58 +69,27 @@ public class TransactionsFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        fab = view.findViewById(R.id.floating_action_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateTransactionDialog dialog = new CreateTransactionDialog();
+                dialog.show(getFragmentManager(), "fucking dialog");
+            }
+        });
+
+        updateViews();
+
         return view;
     }
 
-    public void updateViews(final String greeting,
-                            final String balance,
-                            final String certificate,
-                            final List<Transaction> transactions) {
+    public void updateViews() {
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                greetingTextView.setText(greeting);
-                balanceTextView.setText(balance);
+        transactions.clear();
+        transactions.addAll(AppShared.getTransactions());
+        adapter.notifyDataSetChanged();
 
-                if (certificate != null) {
-                    certificateTextView.setVisibility(View.VISIBLE);
-                    certificateTextView.setText(certificate);
-                } else {
-                    certificateTextView.setVisibility(View.GONE);
-                }
-
-                TransactionsFragment.this.transactions.clear();
-                for (Transaction transaction: transactions) {
-                    TransactionsFragment.this.transactions.add(transaction);
-                }
-                adapter.notifyDataSetChanged();
-
-                if (firstRun) {
-
-                    ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar);
-                    ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.container);
-
-                    progressBar.setVisibility(View.INVISIBLE);
-                    viewPager.findViewById(R.id.container).setVisibility(View.VISIBLE);
-
-                    Animation fadein = AnimationUtils.loadAnimation(getActivity(), R.anim.fadein);
-                    Animation fadeout = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
-
-                    progressBar.clearAnimation();
-                    progressBar.setAnimation(fadeout);
-                    progressBar.animate();
-
-                    viewPager.clearAnimation();
-                    viewPager.setAnimation(fadein);
-                    viewPager.animate();
-
-                    firstRun = false;
-                }
-
-                swipeContainer.setRefreshing(false);
-            }
-        });
+        swipeContainer.setRefreshing(false);
     }
 
     public class TransactionsAdapter extends
