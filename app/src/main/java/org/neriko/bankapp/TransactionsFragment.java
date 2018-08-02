@@ -1,7 +1,10 @@
 package org.neriko.bankapp;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -85,11 +88,18 @@ public class TransactionsFragment extends Fragment {
 
     public void updateViews() {
 
-        transactions.clear();
-        transactions.addAll(AppShared.getTransactions());
-        adapter.notifyDataSetChanged();
+        if (transactions != null) {
+            transactions.clear();
+            transactions.addAll(AppShared.getTransactions());
+        }
 
-        swipeContainer.setRefreshing(false);
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+
+        if (swipeContainer != null) {
+            swipeContainer.setRefreshing(false);
+        }
     }
 
     public class TransactionsAdapter extends
@@ -106,11 +116,11 @@ public class TransactionsFragment extends Fragment {
 
                 super(itemView);
 
-                title = (TextView) itemView.findViewById(R.id.transaction_title);
-                description = (TextView) itemView.findViewById(R.id.transaction_description);
-                cost = (TextView) itemView.findViewById(R.id.transaction_cost);
-                date = (TextView) itemView.findViewById(R.id.transaction_date);
-                sender = (TextView) itemView.findViewById(R.id.transaction_sender);
+                title = itemView.findViewById(R.id.transaction_title);
+                description = itemView.findViewById(R.id.transaction_description);
+                cost = itemView.findViewById(R.id.transaction_cost);
+                date = itemView.findViewById(R.id.transaction_date);
+                sender = itemView.findViewById(R.id.transaction_sender);
             }
         }
 
@@ -133,13 +143,12 @@ public class TransactionsFragment extends Fragment {
 
             View contactView = inflater.inflate(R.layout.transaction_item, parent, false);
 
-            ViewHolder viewHolder = new ViewHolder(contactView);
-            return viewHolder;
+            return new ViewHolder(contactView);
         }
 
         @Override
-        public void onBindViewHolder(TransactionsAdapter.ViewHolder viewHolder, int position) {
-            Transaction transaction = mTransactions.get(position);
+        public void onBindViewHolder(final TransactionsAdapter.ViewHolder viewHolder, int position) {
+            final Transaction transaction = mTransactions.get(position);
 
             TextView title = viewHolder.title;
             title.setText(transaction.title);
@@ -151,11 +160,30 @@ public class TransactionsFragment extends Fragment {
             sender.setText(transaction.sender);
 
             TextView cost = viewHolder.cost;
+
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle(transaction.title)
+                            .setMessage(transaction.description)
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override public void onClick(DialogInterface dialogInterface, int i) { }
+                    }).show();
+                }
+            });
+
+//            int costValue = Integer.valueOf(transaction.cost);
+//            if (costValue >= 0) {
+//                cost.setTextColor(getResources().getColor(R.color.green));
+//            } else {
+//                cost.setTextColor(getResources().getColor(R.color.red));
+//            }
             int costValue = Integer.valueOf(transaction.cost);
             if (costValue >= 0) {
-                cost.setTextColor(getResources().getColor(R.color.green));
+                cost.setBackgroundResource(R.drawable.green_circle);
             } else {
-                cost.setTextColor(getResources().getColor(R.color.red));
+                cost.setBackgroundResource(R.drawable.red_circle);
             }
             cost.setText(transaction.cost + "@");
         }

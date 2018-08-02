@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -123,6 +122,7 @@ public class DownloadProfileInfo extends AsyncTask<Void, Void, Void> {
                 int fac_pass_needed = study_info.getJSONObject("info").getInt("fac_pass_needed");
                 int fac_pass = study_info.getJSONObject("val").getInt("fac_pass");
                 AppShared.setFacInfo(fac_pass + " из " + fac_pass_needed);
+                AppShared.setFacRequired(fac_pass_needed);
             }
         } catch (Exception e) {
             e.printStackTrace();

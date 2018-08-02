@@ -23,12 +23,18 @@
     <string name="lec_attended">Лекций посещено:</string>
     <string name="lec_missed">Лекций пропущено:</string>
     <string name="next_fine">Штраф за пропуск следующей лекции:</string>
+    <string name="fac_info">Зачёты по факультативам:</string>
 
     <string name="send">Перевести</string>
     <string name="cancel">Отмена</string>
 
-    <string name="target_name">Имя получателя</string>
-    <string name="description">Назначение</string>
+    <string name="create_transaction">Создание транзакции:</string>
+    <string name="target_name">Логин получателя</string>
+    <string name="description">Назначение перевода</string>
     <string name="description_helper">Транзакции одобряются только по уважительной причине</string>
-    <string name="amount">О какой сумме идёт речь?</string>
+    <string name="amount">Сумма</string>
+    
+    <string name="transaction_created">Перевод отправлен на рассмотрение, если он будет одобрен, то появится в истории.</string>
+
+    <string name="ok">ОК</string>
 </resources>

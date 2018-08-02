@@ -21,6 +21,7 @@ public class AppShared {
     private static String seminarInfo;
     private static String labInfo;
     private static String facInfo;
+    private static int facRequired = 0;
 
     private static String lecturesAttended;
     private static String lecturesMissed;
@@ -135,5 +136,13 @@ public class AppShared {
 
     public static void setLogin(String login) {
         AppShared.login = login;
+    }
+
+    public static int getFacRequired() {
+        return facRequired;
+    }
+
+    public static void setFacRequired(int facRequired) {
+        AppShared.facRequired = facRequired;
     }
 }

@@ -7,7 +7,10 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +24,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 public class CreateTransactionDialog extends DialogFragment {
@@ -46,6 +50,7 @@ public class CreateTransactionDialog extends DialogFragment {
                         new SendTransactionRequest(name.getText().toString(),
                                 description.getText().toString(),
                                 value.getText().toString()).execute();
+                        Snackbar.make(getActivity().findViewById(R.id.main_content), getString(R.string.transaction_created), Snackbar.LENGTH_LONG*2).show();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -54,7 +59,7 @@ public class CreateTransactionDialog extends DialogFragment {
         return builder.create();
     }
 
-    public class SendTransactionRequest extends AsyncTask<Void, Void, Void> {
+    public static class SendTransactionRequest extends AsyncTask<Void, Void, Void> {
 
         private String body;
 
