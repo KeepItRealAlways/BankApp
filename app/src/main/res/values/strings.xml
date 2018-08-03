@@ -37,4 +37,8 @@
     <string name="transaction_created">Перевод отправлен на рассмотрение, если он будет одобрен, то появится в истории.</string>
 
     <string name="ok">ОК</string>
+
+    <string name="input_target_login">Сначала введите логин получателя!</string>
+    <string name="input_target_description">Сначала введите назначение перевода!</string>
+    <string name="input_target_appropriate_value">Сначала введите допустимую сумму для перевода!</string>
 </resources>

@@ -47,10 +47,19 @@ public class CreateTransactionDialog extends DialogFragment {
         builder.setView(view)
                 .setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        new SendTransactionRequest(name.getText().toString(),
-                                description.getText().toString(),
-                                value.getText().toString()).execute();
-                        Snackbar.make(getActivity().findViewById(R.id.main_content), getString(R.string.transaction_created), Snackbar.LENGTH_LONG*2).show();
+                        if (name.getText().toString().isEmpty()) {
+                            Snackbar.make(getActivity().findViewById(R.id.main_content), getString(R.string.input_target_login), Snackbar.LENGTH_LONG).show();
+                        } else if (description.getText().toString().isEmpty()) {
+                            Snackbar.make(getActivity().findViewById(R.id.main_content), getString(R.string.input_target_description), Snackbar.LENGTH_LONG).show();
+                        } else if (value.getText().toString().isEmpty() ||
+                                value.getText().toString().length() > 6) {
+                            Snackbar.make(getActivity().findViewById(R.id.main_content), getString(R.string.input_target_appropriate_value), Snackbar.LENGTH_LONG).show();
+                        } else {
+                            new SendTransactionRequest(name.getText().toString(),
+                                    description.getText().toString(),
+                                    value.getText().toString()).execute();
+                            Snackbar.make(getActivity().findViewById(R.id.main_content), getString(R.string.transaction_created), Snackbar.LENGTH_LONG * 2).show();
+                        }
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -65,6 +74,12 @@ public class CreateTransactionDialog extends DialogFragment {
 
         public SendTransactionRequest(String name, String description, String value) {
             JSONObject object = new JSONObject();
+            int amount = 0;
+            try {
+                amount = Integer.valueOf(value);
+            } catch (NumberFormatException exception) {
+                exception.printStackTrace();
+            }
             try {
                 object.put("creator", AppShared.getLogin());
                 object.put("description", description);
@@ -72,7 +87,7 @@ public class CreateTransactionDialog extends DialogFragment {
                 JSONArray money = new JSONArray();
                 JSONObject val = new JSONObject();
                 val.put("receiver", name);
-                val.put("value", Integer.valueOf(value));
+                val.put("value", amount);
                 val.put("money_type", "p2p");
                 money.put(val);
                 object.put("money", money);

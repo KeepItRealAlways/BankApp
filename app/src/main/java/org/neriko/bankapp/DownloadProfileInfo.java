@@ -47,6 +47,9 @@ public class DownloadProfileInfo extends AsyncTask<Void, Void, Void> {
                 String name = object.getString("first_name") + " " + object.getString("last_name");
                 AppShared.setName(name);
 
+                String nameBackwards = object.getString("last_name") + " " + object.getString("first_name");
+                AppShared.setNameBackwards(nameBackwards);
+
                 String balance;
                 Double absoluteBalance = object.getDouble("balance");
                 if (Math.abs(absoluteBalance) >= 10) {
@@ -73,8 +76,19 @@ public class DownloadProfileInfo extends AsyncTask<Void, Void, Void> {
                 array = object.getJSONArray("balance_changes");
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject arrObj = array.getJSONObject(i);
+                    System.out.println(arrObj.toString());
                     if (arrObj.getBoolean("counted")) {
+
                         Double fuckingValue = arrObj.getDouble("value");
+
+                        String creator;
+                        if (arrObj.getString("creator").equalsIgnoreCase(AppShared.getNameBackwards())) {
+                            creator = arrObj.getString("receiver");
+                            fuckingValue = -fuckingValue;
+                        } else {
+                            creator = arrObj.getString("creator");
+                        }
+
                         String fuckingValueString;
                         if (Math.abs(absoluteBalance) >= 10) {
                             fuckingValueString = String.valueOf(fuckingValue.intValue());
@@ -87,7 +101,7 @@ public class DownloadProfileInfo extends AsyncTask<Void, Void, Void> {
                                 arrObj.getString("description"),
                                 fuckingValueString,
                                 arrObj.getString("creation_timestamp"),
-                                arrObj.getString("creator")
+                                creator
                         ));
                     }
                 }

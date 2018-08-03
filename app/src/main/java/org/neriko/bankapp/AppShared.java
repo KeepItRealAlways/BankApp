@@ -1,5 +1,7 @@
 package org.neriko.bankapp;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,9 +11,11 @@ import java.util.List;
 public class AppShared {
 
     private static String authToken = null;
-    private static String url = "https://bank-2-0-nexiko.c9users.io/bank_api/";
+    //private static String url = "https://bank-2-0-nexiko.c9users.io/bank_api/";
+    private static String url = "https://lfmsh.ru/bank_api";
 
     private static String name = null;
+    private static String nameBackwards = null;
     private static String balance = null;
     private static String certificate = null;
 
@@ -29,6 +33,8 @@ public class AppShared {
     private static String nextFine;
 
     private static String login;
+
+    private static Date lastTransaction = null;
 
     public static void setAuthToken(String newToken) {
         authToken = newToken;
@@ -144,5 +150,13 @@ public class AppShared {
 
     public static void setFacRequired(int facRequired) {
         AppShared.facRequired = facRequired;
+    }
+
+    public static String getNameBackwards() {
+        return nameBackwards;
+    }
+
+    public static void setNameBackwards(String nameBackwards) {
+        AppShared.nameBackwards = nameBackwards;
     }
 }
